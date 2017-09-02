@@ -25,17 +25,16 @@ var game = {
 	},
 	uniqueIndex: function(){
 		var throwAway = this.randomNumGenerator(this.questions.length, 0);
-		if (this.questionsAlreadyAnsweredIndices.indexOf(throwAway) !== -1){
-			this.questionsAlreadyAnsweredIndices.push(throwAway);
+		if (this.questionsAlreadyAnsweredIndices.indexOf(throwAway) === -1){
 			return throwAway;
 		}
 		else {
-			this.uniqueIndex();
+			return this.uniqueIndex();
 		}
 	},
 	chosenQuestionFx: function() {
 		this.chosenQuestion = this.uniqueIndex();
-		questionsAlreadyAnsweredIndices.push(this.chosenQuestion);
+		this.questionsAlreadyAnsweredIndices.push(this.chosenQuestion);
 	},
 	correctAnswerExtPopOff: function(correctAnswer) {
 		return correctAnswer.slice(0, correctAnswer.lastIndexOf("."));
@@ -142,12 +141,14 @@ var ui = {
 			game.numOfQuestionsCorrectlyAnswered++;
 		}
 		else {
-			$(".currentQuestion")
-				.html("Nope");
 			if ($(object).hasClass("answer")) {
+				$(".currentQuestion")
+					.html("Nope");
 				game.numOfQuestionsIncorrectlyAnswered++;
 			}
 			else {
+				$(".currentQuestion")
+					.html("Ran Out Of Time");
 				game.numOfQuestionsUnanswered++;
 			}
 		};
